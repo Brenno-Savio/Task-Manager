@@ -2,10 +2,15 @@
 
 import { useGlobalState } from '@/context/globalProvider';
 import styled from 'styled-components';
+import CreateContent from '../modals/CreateContent';
 
 const Tasks = () => {
   const { theme } = useGlobalState();
-  return <TaskStyled theme={theme}>Tasks</TaskStyled>;
+  return (
+    <TaskStyled theme={theme}>
+      <CreateContent />
+    </TaskStyled>
+  );
 };
 
 const TaskStyled = styled.main`
