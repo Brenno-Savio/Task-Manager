@@ -1,15 +1,19 @@
 'use client';
 
 import { useGlobalState } from '@/context/globalProvider';
+import { useClerk } from '@clerk/nextjs';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
+import { logout } from '@/utils/Icons';
 import menu from '@/utils/menu';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import Button from '../button/Button';
 
 const Sidebar = () => {
   const { theme } = useGlobalState();
+  const { signOut } = useClerk();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -23,12 +27,7 @@ const Sidebar = () => {
       <div className="profile">
         <div className="profile-overlay"></div>
         <div className="image">
-          <Image
-            width={70}
-            height={70}
-            src="/profile-pic.png"
-            alt="profile"
-          />
+          <Image width={70} height={70} src="/profile-pic.png" alt="profile" />
         </div>
         <h1>
           <span>No</span>
@@ -40,7 +39,7 @@ const Sidebar = () => {
           const link = item.link;
           return (
             <li
-              className={`nav-item ${pathname === link ? "active" : ""}`}
+              className={`nav-item ${pathname === link ? 'active' : ''}`}
               onClick={() => handleClick(link)}
             >
               {item.icon}
@@ -49,7 +48,18 @@ const Sidebar = () => {
           );
         })}
       </ul>
-      <button></button>
+      <div className="sign-out relative m-6">
+        <Button
+          name={'Sign Out'}
+          type={'submit'}
+          padding={'0.4rem 0.8rem'}
+          borderRad={'0.8rem'}
+          fw={'500'}
+          fs={'1.2rem'}
+          icon={logout}
+          click={() => signOut(() => router.push('/signin'))}
+        />
+      </div>
     </SidebarStyled>
   );
 };
@@ -179,31 +189,31 @@ const SidebarStyled = styled.nav`
       border-top-right-radius: 5px;
     }
 
-    a{
+    a {
       font-weight: 500;
       z-index: 2;
       transition: all 0.3s ease-in-out;
       line-height: 0;
     }
 
-    i{
+    i {
       display: flex;
       align-items: center;
       color: ${(props) => props.theme.colorIcons};
     }
 
-    &:hover{
+    &:hover {
       &::after {
         width: 100%;
       }
     }
   }
 
-  .active{
+  .active {
     background-color: ${(props) => props.theme.activeNavLink};
 
     i,
-    a{
+    a {
       color: ${(props) => props.theme.colorIcons2};
     }
   }
@@ -211,8 +221,6 @@ const SidebarStyled = styled.nav`
   .active::before {
     width: 0.3rem;
   }
-
-
 `;
 
 export default Sidebar;

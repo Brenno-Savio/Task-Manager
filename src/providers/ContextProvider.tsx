@@ -17,7 +17,11 @@ function ContextProvider({ children }: Props) {
   }, []);
 
   if (!isReady) {
-    return null;
+    return (
+      <div className="loader-container">
+        <span className="loader"></span>
+      </div>
+    );
   }
 
   return (
