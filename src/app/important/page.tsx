@@ -1,7 +1,12 @@
-"use client";
+'use client';
+
+import Tasks from '@/components/tasks/Tasks';
+import { useGlobalState } from '@/context/globalProvider';
 
 const page = () => {
-  return <>Important</>
-}
+  const { importantTasks } = useGlobalState();
+
+  return <Tasks title="Important Tasks!" tasks={importantTasks} />;
+};
 
 export default page;

@@ -1,36 +1,41 @@
 'use client';
 
 import { useGlobalState } from '@/context/globalProvider';
-import { TaskObj } from '@/types/TaskObj';
+import { Task } from '@/types/Task';
 import { plus } from '@/utils/Icons';
 import styled from 'styled-components';
 import TaskItem from '../taskItem/TaskItem';
 
 interface Props {
   title: string;
-  tasksObj: TaskObj;
+  tasks: Task[];
 }
 
-const Tasks = ({ title, tasksObj }: Props) => {
-  const { theme } = useGlobalState();
-  const { data } = tasksObj;
+const Tasks = ({ title, tasks }: Props) => {
+  const { theme, isLoading } = useGlobalState();
 
   return (
     <TaskStyled theme={theme}>
       <h1>{title}</h1>
-      <div className="tasks grid">
-        {data?.map((task) => <TaskItem task={{ ...task }} key={task.id} />)}
-        <button className="create-task">
-          {plus}
-          Add New Task
-        </button>
-      </div>
+      {!isLoading ? (
+        <div className="tasks grid">
+          {tasks?.map((task) => <TaskItem task={{ ...task }} key={task.id} />)}
+          <button className="create-task">
+            {plus}
+            Add New Task
+          </button>
+        </div>
+      ) : (
+        <div className="tasks-loader loader-container">
+          <span className=" loader"></span>
+        </div>
+      )}
     </TaskStyled>
   );
 };
 
 const TaskStyled = styled.main`
-position: relative;
+  position: relative;
   padding: 2rem;
   width: 100%;
   background-color: ${(props) => props.theme.colorBg2};

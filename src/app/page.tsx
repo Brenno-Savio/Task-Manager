@@ -6,7 +6,7 @@ import { useGlobalState } from '@/context/globalProvider';
 const Home = () => {
   const { tasks } = useGlobalState();
 
-  return <Tasks title="All Tasks" tasksObj={tasks} />;
+  return <Tasks title="All Tasks" tasks={tasks} />;
 };
 
 export default Home;

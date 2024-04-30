@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import toast from 'react-hot-toast';
 import themes from './themes';
 
 export const GlobalContext = createContext();
@@ -16,6 +17,9 @@ export const GlobalProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [tasks, setTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [incompleteTasks, setIncompleteTasks] = useState([]);
+  const [importantTasks, setImportantTasks] = useState([]);
 
   const theme = themes[selectedTheme];
 
@@ -24,7 +28,16 @@ export const GlobalProvider = ({ children }) => {
 
     try {
       const res = await axios.get('/api/tasks');
-      setTasks(res);
+      const { data } = res;
+
+      const completed = data.filter((tasks) => tasks.isCompleted === true);
+      const incomplete = data.filter((tasks) => tasks.isCompleted === false);
+      const important = data.filter((tasks) => tasks.isImportant === true);
+
+      setCompletedTasks(completed);
+      setIncompleteTasks(incomplete);
+      setImportantTasks(important);
+      setTasks(data);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -32,8 +45,24 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const deleteTask = async (id) => {
+    try {
+      await axios.delete(`/api/tasks/${id}`);
+      toast.success('Task deleted successfully.');
 
-  }
+      alltasks();
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong.');
+    }
+  };
+
+  const updateTask = async (task) => {
+    try {
+      await axios.put(`/api/tasks/`, task);
+      toast.success('Task updated successfully.');
+      alltasks();
+    } catch (error) {}
+  };
 
   useEffect(() => {
     if (user) alltasks();
@@ -44,6 +73,12 @@ export const GlobalProvider = ({ children }) => {
       value={{
         theme,
         tasks,
+        deleteTask,
+        updateTask,
+        isLoading,
+        completedTasks,
+        incompleteTasks,
+        importantTasks,
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

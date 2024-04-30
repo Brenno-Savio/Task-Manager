@@ -1,7 +1,7 @@
 'use client';
 
 import { useGlobalState } from '@/context/globalProvider';
-import { useClerk } from '@clerk/nextjs';
+import { UserButton, useClerk, useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
@@ -14,6 +14,13 @@ import Button from '../button/Button';
 const Sidebar = () => {
   const { theme } = useGlobalState();
   const { signOut } = useClerk();
+  const { user } = useUser();
+
+  const { firstName, lastName, imageUrl } = user || {
+    firstName: '',
+    lastName: '',
+    imageUrl: '',
+  };
 
   const router = useRouter();
   const pathname = usePathname();
@@ -27,11 +34,13 @@ const Sidebar = () => {
       <div className="profile">
         <div className="profile-overlay"></div>
         <div className="image">
-          <Image width={70} height={70} src="/profile-pic.png" alt="profile" />
+          <Image width={70} height={70} src={imageUrl} alt="profile" />
         </div>
-        <h1>
-          <span>No</span>
-          <span>Face</span>
+        <div className="user-btn absolute z-20 top-0 w-full h-full">
+          <UserButton />
+        </div>
+        <h1 className="capitalize">
+          {firstName} {lastName}
         </h1>
       </div>
       <ul className="nav-items">
@@ -40,6 +49,7 @@ const Sidebar = () => {
           return (
             <li
               className={`nav-item ${pathname === link ? 'active' : ''}`}
+              key={item.id}
               onClick={() => handleClick(link)}
             >
               {item.icon}
@@ -76,6 +86,19 @@ const SidebarStyled = styled.nav`
   justify-content: space-between;
 
   color: ${(props) => props.theme.colorGrey3};
+
+  .user-btn {
+    .cl-rootBox {
+      width: 100%;
+      height: 100%;
+
+      .cl-userButtonTrigger {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+      }
+    }
+  }
 
   .profile {
     margin: 1.5rem;
