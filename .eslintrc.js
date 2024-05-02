@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es6: true,
@@ -10,6 +11,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:@next/next/recommended',
+    'eslint-config-custom/base',
   ],
   globals: {
     Atomics: 'readonly',
@@ -22,9 +24,9 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {
-    "no-console": "off",
-    "class-method-use-this": "off",
-    "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off"
+    'no-console': 'off',
+    'class-method-use-this': 'off',
+    'react/no-unescaped-entities': 'off',
+    '@next/next/no-page-custom-font': 'off',
   },
 };
