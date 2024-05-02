@@ -15,6 +15,8 @@ export const GlobalProvider = ({ children }) => {
 
   const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
@@ -23,6 +25,18 @@ export const GlobalProvider = ({ children }) => {
 
   const theme = themes[selectedTheme];
 
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  const collapseMenu = () => {
+    setCollapsed(!collapsed);
+  }
+
   const alltasks = async () => {
     setIsLoading(true);
 
@@ -30,14 +44,20 @@ export const GlobalProvider = ({ children }) => {
       const res = await axios.get('/api/tasks');
       const { data } = res;
 
-      const completed = data.filter((tasks) => tasks.isCompleted === true);
-      const incomplete = data.filter((tasks) => tasks.isCompleted === false);
-      const important = data.filter((tasks) => tasks.isImportant === true);
+      const sorted = data.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+
+      const completed = sorted.filter((tasks) => tasks.isCompleted === true);
+      const incomplete = sorted.filter((tasks) => tasks.isCompleted === false);
+      const important = sorted.filter((tasks) => tasks.isImportant === true);
 
       setCompletedTasks(completed);
       setIncompleteTasks(incomplete);
       setImportantTasks(important);
-      setTasks(data);
+      setTasks(sorted);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -73,12 +93,18 @@ export const GlobalProvider = ({ children }) => {
       value={{
         theme,
         tasks,
+        alltasks,
         deleteTask,
         updateTask,
         isLoading,
         completedTasks,
         incompleteTasks,
         importantTasks,
+        modal,
+        openModal,
+        closeModal,
+        collapsed,
+        collapseMenu,
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

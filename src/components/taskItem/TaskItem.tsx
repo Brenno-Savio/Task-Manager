@@ -92,22 +92,22 @@ const TaskItemStyled = styled.div`
         color: ${(props) => props.theme.colorGrey2};
       }
     }
-  }
 
-  .edit {
-    margin-left: auto;
-  }
+    .edit {
+      margin-left: auto;
+    }
 
-  .completed,
-  .incomplete {
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: ${(props) => props.theme.colorDanger};
-    border-radius: 30px;
-  }
+    .completed,
+    .incomplete {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: ${(props) => props.theme.colorDanger};
+      border-radius: 30px;
+    }
 
-  .completed {
-    background: ${(props) => props.theme.colorGreenDark};
+    .completed {
+      background: ${(props) => props.theme.colorGreenDark} !important;
+    }
   }
 `;
 

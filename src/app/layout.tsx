@@ -39,7 +39,7 @@ export default function RootLayout({
             referrerPolicy="no-referrer"
           />
         </head>
-        <body className={`${nunito.className} h-screen w-screen`}>
+        <body className={`${nunito.className}`}>
           <NextTopLoader
             height={2}
             color='#27AE60'
@@ -49,7 +49,7 @@ export default function RootLayout({
           <ContextProvider>
             <GlobalStyleProvider>
               {userId && <Sidebar />}
-              <div className="w-full">{children}</div>
+              <div className="main-container">{children}</div>
             </GlobalStyleProvider>
           </ContextProvider>
         </body>
