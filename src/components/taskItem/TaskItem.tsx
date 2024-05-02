@@ -48,7 +48,7 @@ const TaskItem = ({ task }: Props) => {
           </button>
         )}
         <button className="edit">{edit}</button>
-        <button className="delete" onClick={() => deleteTask()}>
+        <button className="delete" onClick={() => deleteTask(id)}>
           {trash}
         </button>
       </div>

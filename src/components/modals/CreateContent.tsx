@@ -60,10 +60,8 @@ const CreateContent = () => {
         alltasks();
         closeModal();
       }
-
     } catch (error) {
       toast.error('Something went wrong.');
-      console.log(error);
     }
   };
 
@@ -75,7 +73,7 @@ const CreateContent = () => {
         <input
           type="text"
           id="title"
-          placeholder="Work, idiot, work."
+          placeholder="Here you put your title!"
           name="title"
           value={title}
           onChange={handleChange('title')}
@@ -85,7 +83,7 @@ const CreateContent = () => {
         <label htmlFor="description">Description</label>
         <textarea
           id="description"
-          placeholder="Moving already and work!"
+          placeholder="And here you put your description!"
           name="description"
           rows={4}
           value={description}

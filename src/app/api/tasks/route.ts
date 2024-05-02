@@ -39,7 +39,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    console.log('ERROR CREATING TAKS: ', error);
     return NextResponse.json({ error: 'Error creating task', status: 500 });
   }
 }
@@ -58,7 +57,6 @@ export async function GET(req: Request) {
     const tasks = await prisma.task.findMany({});
     return NextResponse.json(tasks);
   } catch (error) {
-    console.log('ERROR GETTING TAKS: ', error);
     return NextResponse.json({ error: 'Error getting task', status: 500 });
   }
 }
@@ -86,7 +84,6 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    console.log('ERROR UPDATING TAK: ', error);
     return NextResponse.json({ error: 'Error updating task', status: 500 });
   }
 }
@@ -94,7 +91,6 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
   try {
   } catch (error) {
-    console.log('ERROR DELETING TAK: ', error);
     return NextResponse.json({ error: 'Error deleting task', status: 500 });
   }
 }

@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { NextResponse } from 'next/server';
 import toast from 'react-hot-toast';
 import themes from './themes';
 
@@ -60,7 +61,7 @@ export const GlobalProvider = ({ children }) => {
       setTasks(sorted);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      NextResponse.json({ error: "Error getting tasks", status: 500 });
     }
   };
 
@@ -71,7 +72,6 @@ export const GlobalProvider = ({ children }) => {
 
       alltasks();
     } catch (error) {
-      console.log(error);
       toast.error('Something went wrong.');
     }
   };
