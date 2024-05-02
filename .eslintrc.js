@@ -23,5 +23,7 @@ module.exports = {
   rules: {
     "no-console": "off",
     "class-method-use-this": "off",
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
   },
 };
